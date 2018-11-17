@@ -12,19 +12,24 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>PortoCred</span>
-      <span class="spacer"></span>
-      <a href="#">Link1</a>
-      <a href="#">Link2</a>
-      <a href="#">Link3</a>
+      <mat-toolbar-row>
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span>PortoCred</span>
+        <span class="spacer"></span>
+        <a href="#">Link1</a>
+        <a href="#">Link2</a>
+        <a href="#">Link3</a>
+      </mat-toolbar-row>
+      <mat-toolbar-row>
+        Segunda linha
+      </mat-toolbar-row>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

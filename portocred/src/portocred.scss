@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$portocred-theme-primary: mat-palette($mat-blue);
+$portocred-theme-accent:  mat-palette($mat-pink);
+$portocred-theme-warn:    mat-palette($mat-red);
+$portocred-theme:         mat-light-theme($portocred-theme-primary, $portocred-theme-accent, $portocred-theme-warn);
+
+@include angular-material-theme($portocred-theme);

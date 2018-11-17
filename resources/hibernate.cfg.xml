@@ -11,8 +11,8 @@
 		<property name="hbm2ddl.auto">update</property>
 
 
-		<!--Dietoterapia-->
-		<mapping class="br.com.gastronomia.model.portocred.Paciente" />
+
+		<mapping class="br.com.gastronomia.model.Usuario" />
 
 	</session-factory>
 </hibernate-configuration>

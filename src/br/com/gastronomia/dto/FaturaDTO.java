@@ -1,46 +1,17 @@
-package br.com.gastronomia.model;
+package br.com.gastronomia.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-@Entity
-@Table(name = "Fatura")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Fatura implements Serializable {
-
-    @Column(name = "IdFatura")
+public class FaturaDTO {
     private long id;
-
-    @Column(name = "valor")
     private double valor;
-
-    @Column(name = "data")
-    @Temporal(TemporalType.DATE)
     private Date data;
-
-    @Column(name = "sequencia")
     private int sequencia;
-
-    @Column(name = "status")
     private boolean status;
-
-    public Fatura(long id, double valor, Date data, int sequencia) {
-        this.id = id;
-        this.valor = valor;
-        this.data = data;
-        this.sequencia = sequencia;
-    }
-
-    public Fatura() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
 
     public boolean isStatus() {
         return status;
@@ -48,6 +19,10 @@ public class Fatura implements Serializable {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public void setId(long id) {

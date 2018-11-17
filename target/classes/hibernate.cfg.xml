@@ -10,28 +10,9 @@
 		<property name="hibernate.format_sql">true</property>
 		<property name="hbm2ddl.auto">update</property>
 
-		<mapping class="br.com.gastronomia.model.Usuario" />
-		<mapping class="br.com.gastronomia.model.Ingrediente" />
-		<mapping class="br.com.gastronomia.model.Receita" />
-		<mapping class="br.com.gastronomia.model.GrupoReceitas" />
-		<mapping class="br.com.gastronomia.model.Atributo" />
-        <mapping class="br.com.gastronomia.model.IngredienteAtributo" />
-        <mapping class="br.com.gastronomia.model.IngredienteAtributoId" />
-		<mapping class="br.com.gastronomia.model.ReceitaIngrediente" />
-		<mapping class="br.com.gastronomia.model.ReceitaIngredienteId" />
-		<mapping class="br.com.gastronomia.model.Imagem"/>
-		<mapping class="br.com.gastronomia.model.ReceitaImagem" />
-		<mapping class="br.com.gastronomia.model.ReceitaImagemId" />
-		<mapping class="br.com.gastronomia.model.Nota" />
 
-		<!--Dietoterapia-->
-		<mapping class="br.com.gastronomia.model.dietoterapia.Paciente" />
-		<mapping class="br.com.gastronomia.model.dietoterapia.AtendimentoNutricional"/>
-		<mapping class="br.com.gastronomia.model.dietoterapia.AvaliacaoAntropometrica" />
-		<mapping class="br.com.gastronomia.model.dietoterapia.GastoEnergetico"/>
-		<mapping class="br.com.gastronomia.model.dietoterapia.PlanoRecAlimentar"/>
-		<mapping class="br.com.gastronomia.model.dietoterapia.Refeicao"/>
-		<mapping class="br.com.gastronomia.model.dietoterapia.RegistroAlimento"/>
+
+		<mapping class="br.com.gastronomia.model.Usuario" />
 
 	</session-factory>
 </hibernate-configuration>

@@ -1,6 +1,8 @@
 package br.com.gastronomia.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -23,9 +25,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name= "Usuario",
         uniqueConstraints={
-                @UniqueConstraint(columnNames={"Email"}, name="email_uc"),
-                @UniqueConstraint(columnNames={"Cpf"}, name="cpf_uc"),
-                @UniqueConstraint(columnNames={"Matricula"}, name="matricula_uc")})
+                @UniqueConstraint(columnNames={"Cpf"}, name="cpf_uc")})
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Usuario implements Serializable {
 
@@ -39,6 +39,10 @@ public class Usuario implements Serializable {
     @NotEmpty
     @Column(name = "Cpf")
     private String cpf;
+
+    @OneToMany(cascade = CascadeType.ALL..orphanRemoval = true)
+    @JoinColumn(name = "IdFatura")
+    private List<Fatura> faturas = new ArrayList<>();
 
     @NotEmpty
     @Email(message="E-mail invalido")

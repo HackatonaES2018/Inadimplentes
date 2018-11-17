@@ -40,7 +40,7 @@ public class Usuario implements Serializable {
     @Column(name = "Cpf")
     private String cpf;
 
-    @OneToMany(cascade = CascadeType.ALL..orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true)
     @JoinColumn(name = "IdFatura")
     private List<Fatura> faturas = new ArrayList<>();
 

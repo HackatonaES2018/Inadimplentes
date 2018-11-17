@@ -1,89 +1,177 @@
 package br.com.gastronomia.bo;
 
-import br.com.gastronomia.dao.UsuarioDAO;
-import br.com.gastronomia.dao.dietoterapia.AtendimentoNutricionalDAO;
-import br.com.gastronomia.dao.dietoterapia.PacienteDAO;
-import br.com.gastronomia.exception.ValidationException;
-import br.com.gastronomia.model.dietoterapia.AtendimentoNutricional;
-import br.com.gastronomia.model.dietoterapia.Paciente;
-
 import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import br.com.gastronomia.util.TipoDeUsuario;
+import br.com.gastronomia.dao.UsuarioDAO;
+import br.com.gastronomia.dto.UsuarioLoginDTO;
+import br.com.gastronomia.exception.UsuarioInativoException;
+import br.com.gastronomia.exception.ValidationException;
+import br.com.gastronomia.model.Usuario;
+import org.hibernate.exception.ConstraintViolationException;
+import br.com.gastronomia.util.EncryptUtil;
+import br.com.gastronomia.util.MensagemContantes;
+import br.com.gastronomia.util.Validator;
+import br.com.gastronomia.util.SendMail;
 
 public class UsuarioBO {
-    private AtendimentoNutricionalDAO atendimentoDAO;
-    private PacienteDAO pacienteDAO;
+
     private UsuarioDAO usuarioDAO;
 
     public UsuarioBO() {
-        atendimentoDAO = new AtendimentoNutricionalDAO();
-        pacienteDAO = new PacienteDAO();
         usuarioDAO = new UsuarioDAO();
     }
 
-    public Map<String, List<AtendimentoNutricional>> list() {
+    public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
+        this.usuarioDAO = usuarioDAO;
+    }
 
+    public boolean validateCPF(Usuario usuario) throws ValidationException {
+        if (Validator.validaCpf.fazConta(usuario.getCpf()))
+            return true;
+        throw new ValidationException("invalido");
+
+    }
+
+    public boolean createUser(Usuario usuario) throws NoSuchAlgorithmException, ValidationException {
+        if (usuario != null || !usuario.getSenha().isEmpty()) {
+            String encryptedPassword = EncryptUtil.encrypt2(usuario.getSenha());
+            usuario.setSenha(encryptedPassword);
+
+            SendMail sendMail = new SendMail();
+            String subject = "Confirmação de email";
+//			String body = "localhost:8080/auth/" + EncryptUtil.encrypt2(String.valueOf(usuario.getMatricula()));
+            String body = "Bem Vindo ao NUTRITECH. Acesse  o link http://www.homo.ages.pucrs.br/nutritech/ para começar";
+            sendMail.envio(usuario.getEmail(), usuario.getNome(), subject, body);
+
+            try {
+                usuarioDAO.save(usuario);
+            }
+            catch (ConstraintViolationException e) {
+                switch (e.getConstraintName()) {
+                    case "cpf_uc":
+                        throw new ValidationException("CPF inserido já cadastrado");
+                    case "email_uc":
+                        throw new ValidationException("Email inserido já cadastrado");
+                    case "matricula_uc":
+                        throw new ValidationException("Matricula inserida já cadastrada");
+                }
+            }
+            catch (Exception e) {
+                throw new ValidationException(e.getMessage());
+            }
+        }
+        return true;
+    }
+
+    public void esqueceuSenha(String email, String nome, long id){
+        String hash = email + System.nanoTime();
+
+        SendMail sendMail = new SendMail();
+        String subject = "NUTRITECH - Redefinir senha";
+        String body = "Acesse  o link para redefinir sua senha: http://www.homo.ages.pucrs.br/nutritech/#/usuario/"+id;
+        sendMail.envio(email,"",  subject, body);
+    }
+
+    public long deactivateUser(long id) throws ValidationException {
+        return usuarioDAO.alterStatus(id, false);
+    }
+
+    public long activateUser(long id) throws ValidationException {
+        return usuarioDAO.alterStatus(id, true);
+    }
+
+    public long updateUser(Usuario usuario) throws ValidationException, NoSuchAlgorithmException {
+        if (usuario != null) {
+            String encryptedPassword = null;
+            if (usuario.getSenha().isEmpty()) {
+                encryptedPassword = usuarioDAO.findUserByID(usuario.getId()).getSenha();
+            } else {
+                encryptedPassword = EncryptUtil.encrypt2(usuario.getSenha());
+            }
+            usuario.setSenha(encryptedPassword);
+            return usuarioDAO.updateUser(usuario);
+        }
+        throw new ValidationException("invalido");
+
+    }
+
+    public Usuario validate(Usuario newUsuario) {
+        return newUsuario;
+    }
+
+    public Usuario userExists(UsuarioLoginDTO usuarioLogin) throws NoSuchAlgorithmException, ValidationException, UsuarioInativoException {
+        usuarioLogin.setSenha(EncryptUtil.encrypt2(usuarioLogin.getSenha()));
+        Usuario returnedUsuario = null;
         try {
-            return Collections.singletonMap("Atendimentos", atendimentoDAO.listAll(AtendimentoNutricional.class));
-        } catch (final Exception e) {
-            return Collections.singletonMap("Atendimentos", Collections.emptyList());
+            returnedUsuario = usuarioDAO.findUserByEmail(usuarioLogin.getEmail());
+        } catch(Exception e) {
+            throw new ValidationException(MensagemContantes.MSG_ERR_USUARIO_SENHA_INVALIDOS);
         }
-
-
+        if (!usuarioLogin.getSenha().equals(returnedUsuario.getSenha()))
+            throw new ValidationException(MensagemContantes.MSG_ERR_USUARIO_SENHA_INVALIDOS);
+        if (!returnedUsuario.isStatus())
+            throw new UsuarioInativoException("Usuário Inativo");
+        return returnedUsuario;
     }
 
-    public AtendimentoNutricional criarAtendimento(AtendimentoNutricionalDTO dto) throws ValidationException {
-        if (dto == null)
-            throw new IllegalArgumentException();
+    public HashMap<String, List<Usuario>> listUser() {
+        ArrayList<Usuario> usuarios = null;
+        HashMap<String, List<Usuario>> listUsers = new HashMap<String, List<Usuario>>();
+        usuarios = (ArrayList<Usuario>) usuarioDAO.listAll(Usuario.class);
+        listUsers.put("Usuarios", usuarios);
+        return listUsers;
+    }
 
-        try {
-            Usuario aluno = usuarioDAO.findUserByID(dto.getIdAluno());
-            Usuario professor = usuarioDAO.findUserByID(dto.getIdProfessor());
-            Paciente paciente = pacienteDAO.findPacienteByID(dto.getIdPaciente());
+    public HashMap<String, List<Usuario>> listProf() {
+        ArrayList<Usuario> usuarios = null;
+        HashMap<String, List<Usuario>> listUsers = new HashMap<String, List<Usuario>>();
+        usuarios = (ArrayList<Usuario>) usuarioDAO.listUsersByType(TipoDeUsuario.PROFESSOR);
+        listUsers.put("Usuarios", usuarios);
+        return listUsers;
+    }
 
-            AtendimentoNutricional atendimento = new AtendimentoNutricional(aluno, professor, paciente, dto.getData(), dto.getStatus());
-            long id = atendimentoDAO.save(atendimento);
-            atendimento.setId(id);
+    public HashMap<String, List<Usuario>> listAlunos() {
+        ArrayList<Usuario> usuarios = null;
+        HashMap<String, List<Usuario>> listUsers = new HashMap<String, List<Usuario>>();
+        usuarios = (ArrayList<Usuario>) usuarioDAO.listUsersByType(TipoDeUsuario.USUARIO);
+        listUsers.put("Usuarios", usuarios);
+        return listUsers;
+    }
 
-            return atendimento;
+
+    public Usuario getUserByCpf(Usuario usuarioLogin) throws ValidationException {
+        if (usuarioLogin != null) {
+            return usuarioDAO.findUserByCPF(usuarioLogin.getCpf());
         }
-        catch (Exception e) {
-            throw new ValidationException(e.getMessage());
+        throw new ValidationException("CPF Invalido");
+    }
+
+    public Usuario getUserByEmail(Usuario usuarioLogin) throws ValidationException {
+        if (usuarioLogin != null) {
+            return usuarioDAO.findUserByEmail(usuarioLogin.getEmail());
         }
+        throw new ValidationException("Email Invalido");
     }
 
-    public long deactivateAtendimentoNutricional(long id) throws ValidationException {
-        return atendimentoDAO.alterStatus(id, false);
+    public Usuario getUserByMatricula(Usuario usuarioLogin) throws ValidationException {
+        if (usuarioLogin != null) {
+            return usuarioDAO.findUserByMatricula(usuarioLogin.getMatricula());
+        }
+        throw new ValidationException("Email Invalido");
     }
 
-    public long atualizarAtendimento(AtendimentoNutricionalDTO dto) throws NoSuchAlgorithmException, ValidationException {
-        if (dto == null)
-            throw new IllegalArgumentException();
-
-        Usuario aluno = usuarioDAO.findUserByID(dto.getIdAluno());
-        Usuario professor = usuarioDAO.findUserByID(dto.getIdProfessor());
-        Paciente paciente = pacienteDAO.findPacienteByID(dto.getIdPaciente());
-
-        AtendimentoNutricional atendimento = new AtendimentoNutricional(aluno, professor, paciente, dto.getData(), dto.getStatus());
-        atendimento.setId(dto.getId());
-
-        if (atendimentoDAO.findAtendimentoByID(dto.getId()) == null)
-            return atendimentoDAO.save(atendimento);
-        else
-            return atendimentoDAO.updateAtendimento(atendimento);
-    }
-
-  public AtendimentoNutricional getById(long id) throws ValidationException {
+    public Usuario getUserById(long id) throws ValidationException {
         if (id > 0) {
-            AtendimentoNutricional atendimento = atendimentoDAO.findAtendimentoByID(id);
-            return atendimento;
+            Usuario usuario = usuarioDAO.findUserByID(id);
+            usuario.setSenha("");
+            return usuario;
         }
-        throw new ValidationException("inválido");
+        throw new ValidationException("invalido");
 
     }
-
-
 
 }

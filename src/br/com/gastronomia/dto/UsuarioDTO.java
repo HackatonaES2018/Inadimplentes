@@ -1,6 +1,6 @@
 package br.com.gastronomia.dto;
 
-public class AvaliacaoAntropometricaDTO {
+public class UsuarioDTO {
     private long idAtendimento;
     private double altura;
     private double peso;
@@ -34,7 +34,7 @@ public class AvaliacaoAntropometricaDTO {
 
     private Boolean status;
 
-    public AvaliacaoAntropometricaDTO() {
+    public UsuarioDTO() {
         // empty
     }
 

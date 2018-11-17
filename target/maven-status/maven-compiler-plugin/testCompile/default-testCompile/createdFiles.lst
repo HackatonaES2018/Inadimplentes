@@ -1,0 +1,6 @@
+br/com/gastronomia/testsDAO/TestUserDAO.class
+br/com/gastronomia/tests/TestReceitaBO.class
+br/com/gastronomia/tests/TestIngredienteBO.class
+br/com/gastronomia/tests/TestUsuarioBO.class
+br/com/gastronomia/testsDAO/TestGeneretedDB.class
+br/com/gastronomia/tests/TestGrupoReceitasBO.class

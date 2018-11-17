@@ -1,4 +1,4 @@
-package br.com.gastronomia.bo.portocred;
+package br.com.gastronomia.bo;
 
 import br.com.gastronomia.dao.UsuarioDAO;
 import br.com.gastronomia.dao.dietoterapia.AtendimentoNutricionalDAO;
@@ -12,12 +12,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class AtendimentoNutricionalBO {
+public class UsuarioBO {
     private AtendimentoNutricionalDAO atendimentoDAO;
     private PacienteDAO pacienteDAO;
     private UsuarioDAO usuarioDAO;
 
-    public AtendimentoNutricionalBO() {
+    public UsuarioBO() {
         atendimentoDAO = new AtendimentoNutricionalDAO();
         pacienteDAO = new PacienteDAO();
         usuarioDAO = new UsuarioDAO();

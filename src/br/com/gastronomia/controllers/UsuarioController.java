@@ -1,10 +1,10 @@
-package br.com.gastronomia.controllers.portocred;
+package br.com.gastronomia.controllers;
 
 import br.com.gastronomia.bo.dietoterapia.AvaliacaoAntropometricaBO;
 import br.com.gastronomia.dto.AvaliacaoAntropometricaDTO;
 import br.com.gastronomia.exception.PersistenciaException;
 import br.com.gastronomia.exception.ValidationException;
-import br.com.gastronomia.model.portocred.AvaliacaoAntropometrica;
+import br.com.gastronomia.model.portocred.Usuario;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -12,9 +12,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
-@Path("avaliacoes")
-public class AvaliacaoAntropometricaController {
-    private AvaliacaoAntropometricaBO avaliacaoBO = new AvaliacaoAntropometricaBO();
+@Path("usuarios")
+    public class UsuarioController {
+    private UsuarioBO usuarioBO = new UsuarioBO();
 
     @Context
     private HttpServletRequest request;
@@ -27,7 +27,7 @@ public class AvaliacaoAntropometricaController {
 
     public Response create(AvaliacaoAntropometricaDTO avaliacaoAntropometrica) throws PersistenciaException, ValidationException{
         try {
-            AvaliacaoAntropometrica resultado = avaliacaoBO.criarAtendimento(avaliacaoAntropometrica);
+            Usuario resultado = avaliacaoBO.criarAtendimento(avaliacaoAntropometrica);
             return Response.ok().entity(resultado).status(Response.Status.ACCEPTED).build();
         } catch (final Exception e) {
             return Response.ok().status(Response.Status.BAD_REQUEST).build();
@@ -41,7 +41,7 @@ public class AvaliacaoAntropometricaController {
     public Response remove(@PathParam("id") long id) throws PersistenciaException, ValidationException {
 
         try {
-            avaliacaoBO.deactivateAvaliacaoAntropometrica(id);
+            usuarioBO.deactivateAvaliacaoAntropometrica(id);
             return Response.ok().entity(new StandardResponseDTO(true, "Avaliação desativada com sucesso!")).status(Response.Status.ACCEPTED).build();
         } catch (Exception e) {
             return Response.ok().status(Response.Status.BAD_REQUEST).build();

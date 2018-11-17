@@ -157,12 +157,6 @@ public class UsuarioBO {
         throw new ValidationException("Email Invalido");
     }
 
-    public Usuario getUserByMatricula(Usuario usuarioLogin) throws ValidationException {
-        if (usuarioLogin != null) {
-            return usuarioDAO.findUserByMatricula(usuarioLogin.getMatricula());
-        }
-        throw new ValidationException("Email Invalido");
-    }
 
     public Usuario getUserById(long id) throws ValidationException {
         if (id > 0) {

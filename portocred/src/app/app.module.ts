@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatTabsModule, MatCardModule, MatCheckbox, MatCheckboxModule } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatTabsModule, MatCardModule, MatCheckbox, MatCheckboxModule, MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule, MatFormFieldModule, MatInputModule, MatSliderModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
@@ -16,7 +16,9 @@ import { TabFaturasComponent } from './tab-faturas/tab-faturas.component';
 import { TabOfertasComponent } from './tab-ofertas/tab-ofertas.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 
-import { ApiService } from "./api-service.service";
+import { ApiService } from './api-service.service';
+import { CompartilharPortocoinsComponent } from './compartilhar-portocoins/compartilhar-portocoins.component';
+import { PedirPortocoinsComponent } from './pedir-portocoins/pedir-portocoins.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { ApiService } from "./api-service.service";
     TabPortocoinsComponent,
     TabFaturasComponent,
     TabOfertasComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    CompartilharPortocoinsComponent,
+    PedirPortocoinsComponent
   ],
   imports: [
     BrowserModule,
@@ -43,9 +47,18 @@ import { ApiService } from "./api-service.service";
     MatListModule,
     MatTabsModule,
     MatCardModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSliderModule
   ],
-  providers: [ApiService],
+  entryComponents: [
+    CompartilharPortocoinsComponent
+  ],
+  providers: [
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

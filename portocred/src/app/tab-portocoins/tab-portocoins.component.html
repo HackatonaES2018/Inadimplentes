@@ -6,11 +6,23 @@
   <div class="coins">
     <img src="../../assets/img/coins.png" alt="" style="margin-right:15px">
     <span class="verde" style="font-size:48px"><strong>1.420 PCs</strong></span>
+  </div><br>
+  <div style="text-align:right">
+      Categoria: <strong>Gold</strong>
   </div>
 </mat-card>
 <br>
-<mat-card>Aproveite ofertas com seus portocoins <span style="float:right" class="mdc-fab__icon material-icons">chevron_right</span></mat-card>
+<mat-card>
+  Aproveite ofertas com seus portocoins
+  <span style="float:right" class="mdc-fab__icon material-icons">chevron_right</span>
+</mat-card>
 <br>
-<mat-card>Compartilhe portocoins com seus amigos <span style="float:right" class="mdc-fab__icon material-icons">chevron_right</span></mat-card>
+<mat-card (click)="openDialogCompartilhar()">
+  Compartilhe portocoins com seus amigos
+  <span style="float:right" class="mdc-fab__icon material-icons">chevron_right</span>
+</mat-card>
 <br>
-<mat-card>Peça portocoins aos seus amigos <span style="float:right" class="mdc-fab__icon material-icons">chevron_right</span></mat-card>
+<mat-card>
+  Peça portocoins aos seus amigos
+  <span style="float:right" class="mdc-fab__icon material-icons">chevron_right</span>
+</mat-card>

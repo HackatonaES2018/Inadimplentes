@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Compartilhar Portocoin</h1>
+<div mat-dialog-content>
+  <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="CPF do beneficiado">
+      </mat-form-field>
+      <mat-slider class="example-full-width" max="1420" min="1" step="1" thumbLabel="true" color="primary"></mat-slider>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button cdkFocusInitial>Confirmar</button>
+</div>

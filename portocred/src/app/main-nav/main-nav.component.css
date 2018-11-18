@@ -26,3 +26,12 @@
   color: white;
   text-decoration: none;
 }
+
+img {
+  margin:0 auto !important;
+  max-width:36%;
+}
+
+.mat-drawer-content.mat-sidenav-content {
+  background-color: rgb(132,189,0) !important;
+}

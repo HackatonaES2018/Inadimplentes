@@ -1,18 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { MatButtonModule, MatToolbarModule, MatSidenavModule, MatIconModule, MatListModule, MatTabsModule, MatCardModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MainContainerComponent } from './main-container/main-container.component';
+import { MainTabsComponent } from './main-tabs/main-tabs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainNavComponent,
-    MainContainerComponent
+    MainContainerComponent,
+    MainTabsComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +24,9 @@ import { MainContainerComponent } from './main-container/main-container.componen
     MatToolbarModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatTabsModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

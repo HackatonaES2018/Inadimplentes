@@ -22,7 +22,7 @@ export class AppComponent implements OnInit{
     console.log('Resposta do Get Proposal');
     console.log(temp);
 
-    let test: Cliente = temp
+    let test: Cliente = temp.cliente
     console.log(test);
     
     let contrato:Contrato = await this.apiService.getcontratosByCpf(test.cpf);

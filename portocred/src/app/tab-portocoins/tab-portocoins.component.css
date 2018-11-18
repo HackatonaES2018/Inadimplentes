@@ -1,0 +1,24 @@
+.att {
+    margin-bottom: 25px;
+    color: white;
+    text-align: right;
+    font-size: 14px;
+}
+
+.nome {
+    font-size: 24px;
+}
+
+.coins {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.verde {
+    color: rgb(132,189,0);
+}
+
+.azul {
+    color: rgb(0,45,114);
+}

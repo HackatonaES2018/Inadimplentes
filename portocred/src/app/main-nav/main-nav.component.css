@@ -1,3 +1,12 @@
+.mat-toolbar.mat-primary {
+  background: #ffffff;
+  color: rgb(0,45,114);
+}
+
+.mdc-fab__icon.material-icons {
+  color:rgb(0,45,114);
+}
+
 .sidenav-container {
   height: 100%;
 }
@@ -32,6 +41,14 @@ img {
   max-width:36%;
 }
 
-.mat-drawer-content.mat-sidenav-content {
+::ng-deep .mat-tab-header {
+  background-color: #fff !important;
+}
+
+::ng-deep .mat-ink-bar {
   background-color: rgb(132,189,0) !important;
+}
+
+.mat-drawer-content.mat-sidenav-content {
+  background-color: rgb(0,45,114) !important;
 }

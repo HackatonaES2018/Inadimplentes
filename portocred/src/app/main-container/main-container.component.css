@@ -1,3 +1,5 @@
 .main-container {
+    height: 580px;
     padding: 25px;
+    overflow-y: auto;
 }

@@ -1,9 +1,0 @@
-version: '2'
-services:
-  maven:
-    container_name: maven
-    image: jamesdbloom/docker-java8-maven
-    volumes:
-       - /opt/docker/dietoterapia/back:/volume/git:rw
-    command: ["mvn", "clean"]
-    command: ["mvn", "install", "-f", "/volume/git/pom.xml"]

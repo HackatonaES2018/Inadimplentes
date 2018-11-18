@@ -1,0 +1,55 @@
+.mat-toolbar.mat-primary {
+  background: #ffffff;
+  color: rgb(0,45,114);
+  z-index: 9999;
+}
+
+.mdc-fab__icon.material-icons {
+  color:rgb(0,45,114);
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar a {
+  display: inline-block;
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+}
+
+img {
+  margin:0 auto !important;
+  max-width:36%;
+}
+
+::ng-deep .mat-tab-header {
+  background-color: #fff !important;
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: rgb(132,189,0) !important;
+}
+
+.mat-drawer-content.mat-sidenav-content {
+  background-color: rgb(68,80,126) !important;
+}
